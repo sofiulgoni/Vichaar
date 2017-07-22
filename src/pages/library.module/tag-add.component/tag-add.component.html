@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar color="white">
+    <ion-title>
+      {{title}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+
+    <ion-item no-lines>
+       <ion-input type="text" placeholder="New Tag" [(ngModel)]="newTag.name"></ion-input>
+       <button ion-button icon-only clear item-right (click)="addNewTag()"><ion-icon color="secondary" name="add-circle"></ion-icon></button>
+    </ion-item>
+
+    <ion-item-divider color="white"><b>Tags</b></ion-item-divider>
+
+    <ion-item *ngFor="let tag of bookTags">
+       <ion-badge color="secondary">{{tag.name}}</ion-badge>
+       <button ion-button icon-only clear item-right (click)="removeTagFromBook(tag.$key)"><ion-icon color="danger" name="trash"></ion-icon></button>
+    </ion-item>
+    
+    <ion-item-divider color="white"><b>Select Tag</b></ion-item-divider>
+
+    <ion-item *ngFor="let tag of tagList" (click)="selectTag(tag.$key)">
+       <ion-badge>{{tag.name}}</ion-badge>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

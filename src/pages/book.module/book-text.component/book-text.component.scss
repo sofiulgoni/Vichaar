@@ -1,0 +1,59 @@
+page-book-text {
+        .dark-theme{
+            background-color: darkslategray;
+            h1, h3{
+                color: color($colors, white);
+            }
+            ion-item{
+                background-color: darkslategray;
+            }
+            .swiper-slide {
+                overflow-y: scroll;
+                display: block;
+                background-color: darkslategray;
+            }
+            .swiper-pagination{
+                bottom: 0;
+                top: inherit;
+            }
+            .swiper-pagination-progressbar{
+                background-color: color($colors, danger);
+            }
+            .swiper-pagination-progress {
+                background-color: darkslategray;
+            }
+            .pre-text{
+                white-space: pre-wrap;
+            }
+        }
+        .light-theme{
+            background-color: color($colors, white);
+            h1, h3{
+                color: black;
+            }
+            ion-item{
+                background-color: color($colors, white);
+            }
+            .swiper-slide {
+                overflow-y: scroll;
+                display: block;
+                background-color: color($colors, white);
+            }
+            .swiper-pagination{
+                bottom: 0;
+                top: inherit;
+            }
+            .swiper-pagination-progressbar{
+                background-color: color($colors, danger);
+            }
+            .swiper-pagination-progress {
+                background-color: color($colors, white);
+            }
+            .pre-text{
+                white-space: pre-wrap;
+            }
+        }
+        .selectable {
+           user-select: text;
+        }
+}

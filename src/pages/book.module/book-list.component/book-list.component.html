@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar color="white">
+    <ion-title>
+      {{pageTitle}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="curated" class="curated-header">
+    <img class="curated-header-image" src="{{curatedBooks.image}}">
+    <ion-item class="curated-header">
+      <div text-wrap class="curated-header-name"><b>{{curatedBooks.name}}</b></div>
+      <div text-wrap class="curated-header-about">{{curatedBooks.about}}</div>
+      <div class="curated-header-editor">Curated by {{curatedBooks.editorName}}</div>
+    </ion-item>
+  </div>
+
+  <div *ngIf="category" class="category-header" (click)="openBook(surpriseBook.$key)">
+    <img class="category-header-image" src="{{surpriseBook.image}}">
+    <div class="category-header-content"></div>
+    <div class="category-header-surprise">
+      <ion-badge class="category-header-title" color="secondary">Surprise Me</ion-badge>
+      <h6 class="category-header-author">{{getAuthorNameFromID(surpriseBook.author)}}</h6>
+      <h4 text-wrap><b>{{surpriseBook.name}}</b></h4>
+      <p text-wrap>{{surpriseBook.about}}</p>
+    </div>
+  </div>
+
+  <ion-list class="content">
+
+    <ion-item *ngFor="let book of bookList" (click)="openBook(book.$key)">
+      <ion-avatar item-start>
+        <img src="{{book.image}}">
+      </ion-avatar>
+      <h3 text-wrap>{{getAuthorNameFromID(book.author)}}</h3>
+      <h2 text-wrap><b>{{book.name}}</b></h2>
+      <p text-wrap>{{book.about}}</p>
+      <ion-icon *ngIf="!getLibraryStatus(book.$key)" item-end color="danger" name="add-circle" (click)="addBookToLibrary($event, book)"></ion-icon>
+      <ion-icon *ngIf="getLibraryStatus(book.$key)" item-end color="secondary" name="checkmark-circle"></ion-icon>
+    </ion-item>
+    
+  </ion-list>
+
+</ion-content>

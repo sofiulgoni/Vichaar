@@ -1,0 +1,37 @@
+<ion-header *ngIf="header">
+    <ion-navbar transparent hideBackButton>
+        <ion-buttons start>
+            <button ion-button icon-only [color]="color ? 'white': 'black'" (click)="closeBookText()">
+              <ion-icon name="close"></ion-icon>
+            </button>
+          </ion-buttons>
+          <ion-buttons end>
+            <button ion-button icon-only [color]="textButtonColor" (click)="openTextSettings($event)">
+              <ion-icon name="text"></ion-icon>
+            </button>
+            <button ion-button icon-only [color]="color ? 'white': 'black'" (click)="openTitleList()">
+              <ion-icon name="list"></ion-icon>
+            </button>
+            <button *ngIf="book.media>1" ion-button icon-only [color]="color ? 'white': 'black'" (click)="openAudioPlayer()">
+              <ion-icon name="headset"></ion-icon>
+            </button>
+            <button *ngIf="book.media>2" ion-button icon-only [color]="color ? 'white': 'black'" (click)="openVideoPlayer()">
+              <ion-icon name="videocam"></ion-icon>
+            </button>
+          </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content #content [class]="color ? 'dark-theme' : 'light-theme'" (click)="changeHeader()">
+
+  <ion-slides #slides pager paginationType="progress" (ionSlideDidChange)="slideChanged()">
+    <ion-slide *ngFor="let page of contentList">
+    
+        <ion-list no-lines>
+            <ion-item text-wrap text-left><div [style.font-size]="getHeaderFontSize()"><b>{{page.title}}</b></div></ion-item>
+            <ion-item class="pre-text" text-wrap text-left><div [style.font-size]="getFontSize()">{{page.text}}</div></ion-item>
+        </ion-list>
+
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

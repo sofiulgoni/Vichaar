@@ -1,0 +1,20 @@
+<ion-header no-border>
+  <ion-navbar color="white">
+    <ion-buttons start>
+      <button ion-button icon-only color="danger" (click)="closeCategoryList()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Categories
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item *ngFor="let category of categoryList" (click)="openCategoryWiseBookList(category.$key)">
+      <ion-label><b>{{category.name}}</b></ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

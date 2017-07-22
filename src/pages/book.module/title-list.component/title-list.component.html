@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar no-border color="white">
+    <ion-title>
+      Jump to Page
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding class="content">
+  <div [class]="contentIndex == content.page ? 'selected-item' : 'normal-item'" *ngFor="let content of contentList" (click)="openPage(content.page)">
+    <ion-row>
+      <ion-col col-1 text-left><h6>{{content.page}}</h6></ion-col>
+      <ion-col col-9 text-left text-wrap><p>{{content.title}}</p></ion-col>
+    </ion-row>
+  </div>
+</ion-content>

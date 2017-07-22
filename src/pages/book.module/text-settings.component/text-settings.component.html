@@ -1,0 +1,17 @@
+<ion-content [class]="color ? 'dark-theme' : 'light-theme'">
+  <ion-list no-lines>
+    <ion-item>
+      <ion-range min="10" max="30" [(ngModel)]="fontSize" color="danger" (ionChange)="fontChange()">
+        <ion-label range-left>Aa</ion-label>
+        <ion-label range-right>Aa</ion-label>
+      </ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-row>
+        <ion-col col-4 [class]="left ? 'button-left-selected' : 'button-left'" (click)="leftButtonClicked()">Aa</ion-col>
+        <ion-col col-2></ion-col>
+        <ion-col col-4 [class]="right ? 'button-right-selected' : 'button-right'" (click)="rightButtonClicked()">Aa</ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+</ion-content>

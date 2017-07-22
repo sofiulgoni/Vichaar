@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar color="white">
+    <ion-title>
+      Tags
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+
+    <ion-item-sliding #slidingItem *ngFor="let tag of tagList" (click)="openTagDetails(tag.$key)">
+      <ion-item>
+        <h2><b>{{tag.name}}</b></h2>
+        <p>{{getBookCount(tag.books)}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="removeTag($event, tag.$key)"><ion-icon name="trash"></ion-icon>Delete</button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+</ion-content>

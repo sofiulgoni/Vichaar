@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar color="white">
+    <ion-title>
+      Curated List
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="content">
+    <ion-item *ngFor="let list of editorsList" (click)="showBookList(list.$key)">
+      <ion-avatar item-start>
+        <img src="{{list.image}}">
+      </ion-avatar>
+      <h3 text-wrap><b>{{list.name}}</b></h3>
+      <p text-wrap>{{list.about}}</p>
+      <p text-wrap>Curated by {{list.editorName}}</p>
+      <h6 text-wrap><b>{{list.titles}} Titles</b></h6>
+    </ion-item>
+  </ion-list>
+</ion-content>

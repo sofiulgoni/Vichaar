@@ -1,0 +1,56 @@
+<ion-header no-border>
+  <ion-navbar color="danger">
+    <ion-title>
+      Profile
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="white" (click)="openProfileSettings()">
+        <ion-icon name="cog"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item color="danger" style="height:150px;">
+      <ion-badge color="white"><b>{{userData.membership}} member</b></ion-badge>
+      <ion-icon name="contact" item-right style="font-size: 96px;"></ion-icon>
+    </ion-item>
+
+    <ion-item>
+      <ion-segment color="danger" [(ngModel)]="profileSegment">
+        <ion-segment-button value="Favorites" (ionSelect)="showBookList(1)">{{getFavouriteListSize()}} Favorites</ion-segment-button>
+        <ion-segment-button value="Highlights" (ionSelect)="showBookList(2)">{{getHighlightListSize()}} Highlights</ion-segment-button>
+      </ion-segment>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-list *ngIf="listType == 1">
+    <ion-item-sliding *ngFor="let book of favouriteBookList" (click)="openBook(book.$key)">
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{book.image}}">
+        </ion-avatar>
+        <h2 text-wrap><b>{{book.name}}</b></h2>
+        <h6 text-wrap>{{getAuthorNameByKey(book.author)}}</h6>
+        <ion-icon item-end color="danger" name="heart"></ion-icon>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="removeFromFavourite($event, book.$key)"><ion-icon name="trash"></ion-icon>Remove</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list *ngIf="listType == 2">
+    <ion-item *ngFor="let book of highlightBookList" (click)="openBook(book.$key)">
+      <ion-avatar item-start>
+        <img src="{{book.image}}">
+      </ion-avatar>
+      <h2 text-wrap><b>{{book.name}}</b></h2>
+      <h6 text-wrap>{{getAuthorNameByKey(book.author)}}</h6>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>

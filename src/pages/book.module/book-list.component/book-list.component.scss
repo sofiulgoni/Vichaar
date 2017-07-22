@@ -1,0 +1,58 @@
+page-book-list {
+    .content{
+        background-color: color($colors, light);
+        .curated-header{
+            background-color: color($colors, light);
+        }
+        .curated-header-image{
+            display: block;
+        }
+        .curated-header-name{
+            font-size: 20px;
+        }
+        .curated-header-about{
+            color: darkslategray;
+            padding-top: 10px;
+            font-size: 15px;
+        }
+        .curated-header-editor{
+            color: color($colors, secondary);
+            padding-top: 10px;
+            font-size: 16px;
+        }
+        .category-header{
+            position: relative;
+            height: 250px;
+            background-color: color($colors, light);
+        }
+        .category-header-image{
+            position: absolute;
+            height: 150px;
+            width: 100%;
+            top: 0;
+        }
+        .category-header-content{
+            position: absolute;
+            background-color: color($colors, light);
+            height: 100px;
+        }
+        .category-header-surprise{
+            margin-left: 20px;
+            margin-right: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            position: absolute;
+            background-color: color($colors, white);
+            top: 40px;
+            bottom:20px;
+            overflow: hidden;
+        }
+        .category-header-title{
+            margin-top: 20px;
+            font-size: 15px;
+        }
+        .category-header-author{
+            color: darkslategray;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+page-login {
+    .login-content{
+        .logo-row {
+            padding-top: 20%;
+        }
+        .login-box {
+            margin-top: 20px;
+        }
+        .submit-btn {
+            margin-top: 20px;
+        }
+        .extra-btn {
+            color: color($colors, primary);
+        }
+    }
+}

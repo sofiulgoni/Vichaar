@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar color="white">
+    <ion-title>
+      {{tag.name}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+
+    <ion-item no-lines>
+       <ion-input type="text" placeholder="Tag Name" [(ngModel)]="tag.name"></ion-input>
+       <button ion-button icon-only clear item-right (click)="updateTag()"><ion-icon color="secondary" name="create"></ion-icon></button>
+    </ion-item>
+
+    <ion-item-divider color="white"></ion-item-divider>
+
+    <ion-item-sliding *ngFor="let book of bookList" (click)="openBook(book.$key)">
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{book.image}}">
+        </ion-avatar>
+        <h2 text-wrap><b>{{book.name}}</b></h2>
+        <p text-wrap>{{getAuthorNameFromID(book.author)}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="removeBookFromTag($event, book.$key)"><ion-icon name="trash"></ion-icon>Delete</button>
+      </ion-item-options>
+    </ion-item-sliding>
+    
+  </ion-list>
+  
+</ion-content>

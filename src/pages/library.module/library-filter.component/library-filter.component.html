@@ -1,0 +1,28 @@
+<ion-list no-lines>
+    <ion-item>
+      <ion-label><b>Show</b></ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>In progress</ion-label>
+      <ion-toggle color="danger" [(ngModel)]="inProgress"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Not started</ion-label>
+      <ion-toggle color="danger" [(ngModel)]="notStarted"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Finished</ion-label>
+      <ion-toggle color="danger" [(ngModel)]="isFinished"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>No Audio</ion-label>
+      <ion-checkbox color="danger" [(ngModel)]="noAudio" (ionChange)="onMediaChange()"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>No Video</ion-label>
+      <ion-checkbox color="danger" [(ngModel)]="noVideo" (ionChange)="onMediaChange()"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <button ion-button full color="danger" (click)="saveFilter()">Save</button>
+    </ion-item>
+  </ion-list>
