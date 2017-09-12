@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
+import { ModalController, ViewController } from 'ionic-angular';
 
 import { BookListComponent } from '../../book.module/book-list.component/book-list.component';
 import { HomeService } from '../home.service/home.service';
@@ -12,7 +12,7 @@ export class CategoryListComponent implements OnInit{
 
   categoryList : any[];
 
-  constructor(public navCtrl: NavController, private viewCtrl : ViewController, private homeService : HomeService) {
+  constructor(public modalCtrl: ModalController, private viewCtrl : ViewController, private homeService : HomeService) {
 
   }
   ngOnInit(){
@@ -20,8 +20,9 @@ export class CategoryListComponent implements OnInit{
   }
 
   public openCategoryWiseBookList(key){
-    this.navCtrl.push(BookListComponent, {type : "Category", key : key});
     console.log(key);
+    let bookListModal = this.modalCtrl.create(BookListComponent, {type : "Category", key : key});
+    bookListModal.present();
   }
 
   public closeCategoryList(){

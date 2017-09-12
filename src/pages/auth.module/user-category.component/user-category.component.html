@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar transparent>
+    <ion-title>
+      Categories
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear color="danger" [disabled]="userCategory.length<3" (click)="saveUserCategory()">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div padding-top="10px" padding-bottom="10px" align="center"><b>Select 3 categories that you like</b></div>
+
+  <ion-list no-lines>
+    <ion-item *ngFor="let category of categoryList">
+      <ion-label>{{category.name}}</ion-label>
+      <ion-checkbox item-right color="secondary" [(ngModel)]="category.checked" value="category.id" (ionChange)="checkChanged(category)"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

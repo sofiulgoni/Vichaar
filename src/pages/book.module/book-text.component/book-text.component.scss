@@ -6,6 +6,7 @@ page-book-text {
             }
             ion-item{
                 background-color: darkslategray;
+                color: color($colors, white);
             }
             .swiper-slide {
                 overflow-y: scroll;
@@ -33,6 +34,7 @@ page-book-text {
             }
             ion-item{
                 background-color: color($colors, white);
+                color: black;
             }
             .swiper-slide {
                 overflow-y: scroll;

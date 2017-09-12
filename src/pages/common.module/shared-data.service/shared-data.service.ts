@@ -3,6 +3,9 @@ import { Events } from 'ionic-angular';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase/app';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class SharedDataService {
@@ -17,6 +20,7 @@ export class SharedDataService {
 	private tagList       : any[];
 	private favouriteList : any[];
 	private highlightList : any[];
+	private newUser = {uid : "1m2s3g2j1", email : "msgj@gmail.com"};
 	
 	private userDataObserver      : any;
 	private authorListObserver    : any;
@@ -34,8 +38,10 @@ export class SharedDataService {
     }
 	
 	public startDataObserver(userID){
+		console.log("Data Subscribed");
 	    this.userDataObserver = this.database.object('/User/'+userID).subscribe(userData => {
 			this.userData = userData;
+			this.checkUserSubscription(this.userData);
 			this.authorListObserver = this.database.list('/Author').subscribe(authorList => {
 				this.authorList = authorList;
 				this.categoryListObserver = this.database.list('/Category').subscribe(categoryList => {
@@ -68,6 +74,7 @@ export class SharedDataService {
 	}
     
     public stopDataObserver(){
+		console.log("Data Unsubscribed");
         this.userDataObserver.unsubscribe();
         this.authorListObserver.unsubscribe();
         this.categoryListObserver.unsubscribe();
@@ -83,6 +90,91 @@ export class SharedDataService {
 	public getFirebaseAuth(){
 	    return this.auth.auth;
 	}
+
+	public loginWithSocialProvider(provider){
+		switch(provider){
+			case 'google' : {
+				return this.auth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+			}
+			case 'facebook' : {
+				return this.auth.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider());
+			}
+			case 'twitter' : {
+				return this.auth.auth.signInWithRedirect(new firebase.auth.TwitterAuthProvider());
+			}
+			case 'github' : {
+				return this.auth.auth.signInWithRedirect(new firebase.auth.GithubAuthProvider());
+			}
+		}
+	}
+
+	private checkUserSubscription(user){
+		if(user.membership.status == 2){
+		    console.log("Inactive Member");
+		}else{
+			this.getDate().then(date => {
+				switch(user.membership.id){
+					case 1 : {
+						console.log("Trial Member");
+						if(user.membership.bookLeft < 1){
+							user.membership.status = 2;
+							this.database.object('/User/'+user.$key).update(user).then(() => {
+								console.log("User Subscription Updated");
+							});
+						}
+					}break;
+					case 2 : {
+						console.log("Basic Member");
+                        if(user.membership.bookLeft < 1 || user.membership.endDate < date){
+							user.membership.status = 2;
+							this.database.object('/User/'+user.$key).update(user).then(() => {
+								console.log("User Subscription Updated");
+							});
+						}				
+					}break;
+					case 3 : {
+						console.log("Premium Monthly Member");
+						if(user.membership.endDate < date){
+							user.membership.status = 2;
+							this.database.object('/User/'+user.$key).update(user).then(() => {
+								console.log("User Subscription Updated");
+							});
+						}
+					}break;
+					case 4 : {
+						console.log("Premium Yearly Member");
+						if(user.membership.endDate < date){
+							user.membership.status = 2;
+							this.database.object('/User/'+user.$key).update(user).then(() => {
+								console.log("User Subscription Updated");
+							});
+						}
+					}break;
+				}
+			}).catch(error => {
+				console.log("Get Server Date Failed "+error.message);
+			});
+		}
+	}
+
+	public getDate(){
+		return this.database.object("/.info/serverTimeOffset").first().toPromise().then(result => {
+			var date = new Date(Date.now()+result.$value);
+			var month = this.getDoubleNumber((date.getUTCMonth() + 1).toString());
+            var day = this.getDoubleNumber((date.getUTCDate()).toString());
+            var year = date.getUTCFullYear();
+            var serverDate = year.toString() + month.toString() + day.toString();
+            return parseInt(serverDate);
+		});
+    }
+
+	private getDoubleNumber(number){
+        if(number.length < 2){
+          return "0"+number;
+        }else{
+          return number;
+        }
+    }
 	
 	public getFirebaseDatabase(){
 	    return this.database;
@@ -98,6 +190,14 @@ export class SharedDataService {
 	
 	public getCategoryList(){
 	    return this.categoryList;
+	}
+
+	public getStaticCategoryList(){
+	    return this.database.list('/Category');
+	}
+
+	public getStaticLanguageList(){
+	    return this.database.list('/Language');
 	}
 	
 	public getBookList(){
@@ -126,6 +226,23 @@ export class SharedDataService {
 	
 	public getHighlightList(){
 	    return this.highlightList;
+	}
+
+	public checkIfRedirect(userID){
+		return this.database.object('/User/'+userID).first().toPromise();
+	}
+
+	public setRedirectResult(uid, email){
+		if(uid != null){
+			this.newUser.uid = uid;
+		}
+		if(email != null){
+			this.newUser.email = email;
+		}
+	}
+
+	public getRedirectResult(){
+		return this.newUser;
 	}
 
 	private observerErrorHandler(error){

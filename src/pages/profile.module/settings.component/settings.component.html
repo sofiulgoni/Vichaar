@@ -15,13 +15,13 @@
     </ion-item>
     <ion-item>
       <ion-label><b>Membership</b></ion-label>
-      <ion-label text-right color="primary">{{userData.membership}}</ion-label>
+      <ion-label text-right color="primary">{{userData.membership.name}}</ion-label>
     </ion-item>
     <ion-item>
       <ion-label><b>Privacy settings</b></ion-label>
     </ion-item>
     <ion-item>
-      <ion-label color="secondary"><b>Upgrade now</b></ion-label>
+      <ion-label color="secondary" (click)="openUpgradePage()"><b>Upgrade now</b></ion-label>
     </ion-item>
     <ion-item-divider no-lines color="light"></ion-item-divider>
     <ion-item>

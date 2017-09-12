@@ -1,7 +1,7 @@
 {
   "name": "ionic-hello-world",
   "version": "0.0.0",
-  "author": "Ionic Framework",
+  "author": "MSGJ",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "4.1.2",
     "@angular/platform-browser-dynamic": "4.1.2",
     "@ionic-native/core": "3.10.2",
+    "@ionic-native/in-app-purchase": "3.10.2",
     "@ionic-native/splash-screen": "3.10.2",
     "@ionic-native/status-bar": "3.10.2",
     "@ionic-native/streaming-media": "3.10.2",
@@ -41,8 +42,15 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-statusbar",
     "cordova-plugin-device",
-    "cordova-plugin-splashscreen"
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-streaming-media",
+    "cordova-plugin-browsertab",
+    "cordova-plugin-inappbrowser",
+	"cordova-plugin-inapppurchase",
+    "cordova-plugin-buildinfo",
+    "cordova-universal-links-plugin",
+	"cordova-plugin-customurlscheme"
   ],
   "cordovaPlatforms": [],
-  "description": "BlinkistPlus: An Ionic project"
+  "description": "Gistist: An Ionic project"
 }

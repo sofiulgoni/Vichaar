@@ -7,8 +7,8 @@ page-book-details {
         }
         .book-image{
             display: block;
+            margin: auto;
             height: 250px;
-            width: 100%;
         }
         .book-header{
             padding-left: 20px;
@@ -20,9 +20,6 @@ page-book-details {
         }
         ion-item{
             background-color: darkslategray;
-        }
-        ion-toolbar{
-            position: fixed;
         }
     }
 }

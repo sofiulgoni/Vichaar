@@ -1,0 +1,55 @@
+ <ion-content no-bounce class="content">
+
+  <ion-toolbar transparent>
+    <ion-buttons start>
+      <button ion-button icon-only color="danger" (click)="closeSubscription()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <img class="cover-image" src="{{coverImage}}">
+
+  <ion-list no-lines>
+    <ion-item>
+      <ion-segment color="danger" [(ngModel)]="subscriptionType">
+        <ion-segment-button value="Basic" (ionSelect)="showSubscriptionType('Basic')">Basic</ion-segment-button>
+        <ion-segment-button value="Premium" (ionSelect)="showSubscriptionType('Premium')">Premium</ion-segment-button>
+      </ion-segment>
+    </ion-item>
+  </ion-list>
+
+  <ion-list no-lines *ngIf="subscriptionType == 'Basic'">
+    <ion-item>
+      <div item-left>
+        <h2><b>3 Books per Month</b></h2>
+        <h4>INR 29/Month</h4>
+      </div>
+      <ion-checkbox item-right color="primary" checked="true" disabled></ion-checkbox>
+    </ion-item>
+    <button ion-button block color="danger" (click)="upgradeSubscription()">Upgrade to {{subscriptionType}} {{durationType}}</button>
+  </ion-list>
+
+  <ion-list no-lines *ngIf="subscriptionType == 'Premium'">
+    <ion-item>
+      <div item-left>
+        <h2><b>Unlimited Books</b></h2>
+        <h4>INR 99/Month</h4>
+      </div>
+      <ion-checkbox item-right color="primary" [(ngModel)]="premiumMonthly" (ionChange)="selectPremiumType('Monthly')"></ion-checkbox>
+    </ion-item>
+
+    <ion-item-divider no-lines color="white"></ion-item-divider>
+
+    <ion-item>
+      <div item-left>
+        <h2><b>Unlimited Books</b></h2>
+        <h4>INR 999/Year</h4>
+      </div>
+      <ion-checkbox item-right color="primary" [(ngModel)]="premiumYearly" (ionChange)="selectPremiumType('Yearly')"></ion-checkbox>
+    </ion-item>
+    <button ion-button block color="danger" (click)="upgradeSubscription()">Upgrade to {{subscriptionType}} {{durationType}}</button>
+  </ion-list>
+
+  
+</ion-content>

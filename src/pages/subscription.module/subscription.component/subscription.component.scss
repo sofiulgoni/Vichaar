@@ -1,0 +1,18 @@
+page-subscription {
+    .content{
+        background-size: cover; 
+        .cover-image{ 
+            display: block;
+            margin: auto;
+        }
+        h2{ 
+            color: color($colors, secondary);
+        }
+        h4{
+            color: color($colors, secondary);
+        }
+        ion-toolbar{
+            position: fixed;
+        } 
+    }
+}

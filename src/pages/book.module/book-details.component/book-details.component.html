@@ -1,26 +1,28 @@
 
-  <ion-content class="content">
-
-    <ion-toolbar transparent>
+  <ion-header no-border>
+    <ion-navbar transparent>
       <ion-buttons start>
-      <button ion-button icon-only clear color="white" (click)="closeBookDetails()">
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-buttons end>
-      <button *ngIf="libraryStatus" ion-button icon-only clear color="secondary">
-        <ion-icon name="checkmark-circle"></ion-icon>
-      </button>
-      <button *ngIf="!libraryStatus" ion-button icon-only clear color="white" (click)="addBookToLibrary(book)">
-        <ion-icon name="add-circle"></ion-icon>
-      </button>
-    </ion-buttons>
-    </ion-toolbar>
+        <button ion-button icon-only clear color="white" (click)="closeBookDetails()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-buttons end>
+        <button *ngIf="libraryStatus" ion-button icon-only clear color="secondary">
+          <ion-icon name="checkmark-circle"></ion-icon>
+        </button>
+        <button *ngIf="!libraryStatus" ion-button icon-only clear color="white" (click)="addBookToLibrary(book)">
+          <ion-icon [name]="userData.membership.status == 1 ? 'add-circle' : 'lock'"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content fullscreen="true" class="content">
 
     <div class="book">
       <img class="book-image" src="{{book.image}}">
-      <button *ngIf="userData.membership != 'Trial'" ion-button icon-left block round color="danger" (click)="openUpgradePage()"><ion-icon name="lock"></ion-icon>Upgrade</button>
-      <button *ngIf="userData.membership == 'Trial'" ion-button icon-left block round color="danger" (click)="openBookTextPage(book)"><ion-icon name="text"></ion-icon>Read</button>
+      <button *ngIf="!readStatus" ion-button icon-left block round color="danger" (click)="openUpgradePage()"><ion-icon name="lock"></ion-icon>Upgrade</button>
+      <button *ngIf="readStatus" ion-button icon-left block round color="danger" (click)="openBookTextPage(book)"><ion-icon name="text"></ion-icon>Read</button>
       <div class="book-header">
         <h6 class="book-text">{{getAuthorNameFromID(book.author)}}</h6>
         <h1 class="book-text"><b>{{book.name}}</b></h1>

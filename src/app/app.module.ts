@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { StreamingMedia } from '@ionic-native/streaming-media';
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
 
 import { MyApp } from './app.component';
 
@@ -13,6 +14,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { FirebaseConfig } from './firebase.config';
 
 import { LoginComponent } from '../pages/auth.module/login.component/login.component';
+import { RegisterComponent } from '../pages/auth.module/register.component/register.component';
+import { UserCategoryComponent } from '../pages/auth.module/user-category.component/user-category.component';
 import { AuthService } from '../pages/auth.module/auth.service/auth.service';
 
 import { TabComponent } from '../pages/tab.module/tab.component/tab.component';
@@ -40,6 +43,9 @@ import { ProfileComponent } from '../pages/profile.module/profile.component/prof
 import { SettingsComponent } from '../pages/profile.module/settings.component/settings.component';
 import { ProfileService } from '../pages/profile.module/profile.service/profile.service';
 
+import { SubscriptionComponent } from '../pages/subscription.module/subscription.component/subscription.component';
+import { SubscriptionService } from '../pages/subscription.module/subscription.service/subscription.service';
+
 import { SpinnerComponent } from '../pages/common.module/spinner.component/spinner.component';
 import { ActionSheetComponent } from '../pages/common.module/action-sheet.component/action-sheet.component';
 import { SharedDataService } from '../pages/common.module/shared-data.service/shared-data.service';
@@ -48,6 +54,8 @@ import { SharedDataService } from '../pages/common.module/shared-data.service/sh
   declarations: [
     MyApp,
     LoginComponent,
+    RegisterComponent,
+    UserCategoryComponent,
     TabComponent,
     HomeComponent,
     CategoryListComponent,
@@ -63,7 +71,8 @@ import { SharedDataService } from '../pages/common.module/shared-data.service/sh
     TagListComponent,
     TagDetailsComponent,
     ProfileComponent,
-    SettingsComponent
+    SettingsComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -72,9 +81,7 @@ import { SharedDataService } from '../pages/common.module/shared-data.service/sh
             ios: {
               statusbarPadding: true
             }
-          },
-      scrollAssist: false, 
-      autoFocusAssist: false
+          }
     }),
     AngularFireModule.initializeApp(FirebaseConfig),
     AngularFireAuthModule,
@@ -84,6 +91,8 @@ import { SharedDataService } from '../pages/common.module/shared-data.service/sh
   entryComponents: [
     MyApp,
     LoginComponent,
+    RegisterComponent,
+    UserCategoryComponent,
     TabComponent,
     HomeComponent,
     CategoryListComponent,
@@ -99,18 +108,21 @@ import { SharedDataService } from '../pages/common.module/shared-data.service/sh
     TagListComponent,
     TagDetailsComponent,
     ProfileComponent,
-    SettingsComponent
+    SettingsComponent,
+    SubscriptionComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
     StreamingMedia,
+    InAppPurchase,
     SharedDataService,
     AuthService,
     HomeService,
     BookService,
     LibraryService,
     ProfileService,
+    SubscriptionService,
     SpinnerComponent,
     ActionSheetComponent,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

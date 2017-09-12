@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit  } from '@angular/core';
-import { NavController, ViewController, NavParams, PopoverController } from 'ionic-angular';
+import { ModalController, ViewController, NavParams, PopoverController } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StreamingMedia, StreamingVideoOptions, StreamingAudioOptions } from '@ionic-native/streaming-media';
 
@@ -25,7 +25,7 @@ export class BookTextComponent implements OnInit{
   contentList : any[];
   fontSize = 20;
 
-  constructor(private navCtrl: NavController, private viewCtrl : ViewController, private navParams : NavParams, private streamingMedia : StreamingMedia,
+  constructor(private modalCtrl: ModalController, private viewCtrl : ViewController, private navParams : NavParams, private streamingMedia : StreamingMedia,
               private popoverCtrl: PopoverController, private bookService : BookService, private sanitizer : DomSanitizer) {
     this.key = navParams.get('key');
   }
@@ -74,9 +74,12 @@ export class BookTextComponent implements OnInit{
   }
 
   public openTitleList(){
-    this.navCtrl.push(TitleListComponent,{contentIndex: this.slides.getActiveIndex()+1, contentList : this.contentList, openPage : (index) => {
-      this.slides.slideTo(index-1);
+    let titleListModal = this.modalCtrl.create(TitleListComponent, {contentIndex: this.slides.getActiveIndex()+1, contentList : this.contentList, openPage : (index) => {
+      if(index != null){
+        this.slides.slideTo(index-1);
+      }
     }});
+    titleListModal.present();
   }
 
   public openAudioPlayer(){

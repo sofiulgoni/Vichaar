@@ -21,19 +21,19 @@
 
 <ion-content class="content">
   <ion-list *ngIf="search" no-lines>
-    <ion-item *ngFor="let book of searchBookList" (tap)="openBook(book.$key)">
+    <ion-item *ngFor="let book of searchBookList" (click)="openBook(book.$key)">
       <ion-avatar item-start>
         <img src="{{book.image}}"/>
       </ion-avatar>
       <h3 text-wrap>{{getAuthorNameFromID(book.author)}}</h3>
       <h2 text-wrap><b>{{book.name}}</b></h2>
-      <ion-icon *ngIf="!getLibraryStatus(book.$key)" item-end name="add-circle" color="danger" (tap)="addBookToLibrary(book.$key)"></ion-icon>
+      <ion-icon *ngIf="!getLibraryStatus(book.$key)" item-end [name]="userData.membership.status == 1 ? 'add-circle' : 'lock'" color="danger" (click)="addBookToLibrary(book.$key)"></ion-icon>
       <ion-icon *ngIf="getLibraryStatus(book.$key)" item-end name="checkmark-circle" color="secondary"></ion-icon>
     </ion-item>
   </ion-list>
 
   <ion-list *ngIf="!search" no-lines>
-      <ion-item no-padding class="daily-pick-background" [style.background-image]="freeBookImage" (tap)="openBook(dailyFreeBook.$key)">
+      <ion-item no-padding class="daily-pick-background" [style.background-image]="freeBookImage" (click)="openBook(dailyFreeBook.$key)">
         <ion-badge class="daily-pick-badge" color="secondary">Free Daily</ion-badge>
         <ion-item class="daily-pick-content">
           <div text-wrap class="daily-pick-author-text"><b>{{getAuthorNameFromID(dailyFreeBook.author)}}</b></div>
@@ -46,15 +46,15 @@
 
       <ion-item color="light">
         <ion-label><h2><b>For You</b></h2></ion-label>
-        <ion-label color="danger" text-right (tap)="showBookList('For You')"><h6>More</h6></ion-label>
+        <ion-label color="danger" text-right (click)="showBookList('For You')"><h6>More</h6></ion-label>
       </ion-item>
       <ion-slides slidesPerView="2">
-          <ion-slide  *ngFor="let book of forYouBookList" (tap)="openBook(book.$key)">
+          <ion-slide  *ngFor="let book of forYouBookList" (click)="openBook(book.$key)">
             <ion-card class="card-content">
               <img class="card-image" src="{{book.image}}"/>
               <ion-row class="card-author-content">
                 <ion-col col-8 class="single-line-text" text-left><b>{{getAuthorNameFromID(book.author)}}</b></ion-col>
-                <ion-col col-2 text-right><ion-icon [name]="userData.membership == 'Trial'? 'add' : 'lock'" color="danger" (tap)="addBookToLibrary($event, book.$key)"></ion-icon></ion-col>
+                <ion-col col-2 text-right><ion-icon [name]="userData.membership.status == 1 ? 'add' : 'lock'" color="danger" (click)="addBookToLibrary($event, book.$key)"></ion-icon></ion-col>
               </ion-row>
               <ion-grid>
                 <ion-row><ion-col text-left><b>{{book.name}}</b></ion-col></ion-row>
@@ -71,13 +71,13 @@
         <ion-label color="danger" text-right (click)="showCuratedList()"><h6>More</h6></ion-label>
       </ion-item>
       <ion-slides slidesPerView="2">
-          <ion-slide  *ngFor="let list of curatedBookList" (tap)="showCuratedBookList(list.$key)">
+          <ion-slide  *ngFor="let list of curatedBookList" (click)="showCuratedBookList(list.$key)">
             <ion-card class="card-content">
               <img class="card-image" src="{{list.image}}"/>
               <ion-grid class="card-curated-content">
                 <ion-row><ion-col class="card-curated-name"><h4><b>{{list.name}}</b></h4></ion-col></ion-row>
                 <ion-row><ion-col class="card-curated-about"><h6>{{list.about}}</h6></ion-col></ion-row>
-                <ion-row><ion-col class="card-curated-title"><h5><b>{{list.titles}} Titles</b></h5></ion-col></ion-row>
+                <ion-row><ion-col class="card-curated-title"><h5><b>{{list.books.length}} Titles</b></h5></ion-col></ion-row>
               </ion-grid>
             </ion-card>
           </ion-slide>
@@ -87,15 +87,15 @@
 
       <ion-item color="light">
         <ion-label><h2><b>Trending</b></h2></ion-label>
-        <ion-label color="danger" text-right (tap)="showBookList('Trending')"><h6>More</h6></ion-label>
+        <ion-label color="danger" text-right (click)="showBookList('Trending')"><h6>More</h6></ion-label>
       </ion-item>
       <ion-slides slidesPerView="2">
-          <ion-slide  *ngFor="let book of trendingBookList" (tap)="openBook(book.$key)">
+          <ion-slide  *ngFor="let book of trendingBookList" (click)="openBook(book.$key)">
             <ion-card class="card-content">
               <img class="card-image" src="{{book.image}}"/>
               <ion-row class="card-author-content">
                 <ion-col col-8 class="single-line-text" text-left><b>{{getAuthorNameFromID(book.author)}}</b></ion-col>
-                <ion-col col-2 text-right><ion-icon [name]="userData.membership == 'Trial'? 'add' : 'lock'" color="danger" (tap)="addBookToLibrary($event, book.$key)"></ion-icon></ion-col>
+                <ion-col col-2 text-right><ion-icon [name]="userData.membership.status == 1 ? 'add' : 'lock'" color="danger" (click)="addBookToLibrary($event, book.$key)"></ion-icon></ion-col>
               </ion-row>
               <ion-grid>
                 <ion-row><ion-col text-left><b>{{book.name}}</b></ion-col></ion-row>
@@ -109,15 +109,15 @@
 
       <ion-item color="light">
         <ion-label><h2><b>New</b></h2></ion-label>
-        <ion-label color="danger" text-right (tap)="showBookList('New')"><h6>More</h6></ion-label>
+        <ion-label color="danger" text-right (click)="showBookList('New')"><h6>More</h6></ion-label>
       </ion-item>
       <ion-slides slidesPerView="2">
-          <ion-slide  *ngFor="let book of newBookList" (tap)="openBook(book.$key)">
+          <ion-slide  *ngFor="let book of newBookList" (click)="openBook(book.$key)">
             <ion-card class="card-content">
               <img class="card-image" src="{{book.image}}"/>
               <ion-row class="card-author-content">
                 <ion-col col-8 class="single-line-text" text-left><b>{{getAuthorNameFromID(book.author)}}</b></ion-col>
-                <ion-col col-2 text-right><ion-icon [name]="userData.membership == 'Trial'? 'add' : 'lock'" color="danger" (tap)="addBookToLibrary($event, book.$key)"></ion-icon></ion-col>
+                <ion-col col-2 text-right><ion-icon [name]="userData.membership.status == 1 ? 'add' : 'lock'" color="danger" (click)="addBookToLibrary($event, book.$key)"></ion-icon></ion-col>
               </ion-row>
               <ion-grid>
                 <ion-row><ion-col text-left><b>{{book.name}}</b></ion-col></ion-row>

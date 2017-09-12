@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar color="white">
+    <ion-title>
+      Register
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="register-content" padding>
+  <div class="register-box">
+    <form (ngSubmit)="register(registerInfo)" #registerForm="ngForm">
+      <ion-list inset>
+            
+         <ion-item>
+            <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="registerInfo.email" required></ion-input>
+        </ion-item>
+            
+        <ion-item>
+            <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerInfo.password" required></ion-input>
+        </ion-item>
+
+        <button ion-button class="submit-btn" color="danger" block type="submit" [disabled]="!registerForm.form.valid">Register</button>
+
+       </ion-list>
+    </form>
+  </div>
+</ion-content>

@@ -41,14 +41,6 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  public getMembership(){
-    if(this.userData != undefined){
-      return this.userData.membership + " member";
-    }else{
-      return "";
-    }
-  }
-
   public openProfileSettings(){
     this.navCtrl.push(SettingsComponent);
   }

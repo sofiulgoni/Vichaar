@@ -6,6 +6,7 @@ import { CategoryListComponent } from '../category-list.component/category-list.
 import { BookListComponent } from '../../book.module/book-list.component/book-list.component';
 import { CuratedListComponent } from '../../book.module/curated-list.component/curated-list.component';
 import { BookDetailsComponent } from '../../book.module/book-details.component/book-details.component';
+import { SubscriptionComponent } from '../../subscription.module/subscription.component/subscription.component';
 import { User } from '../../auth.module/user.model/user.model';
 import { Book } from '../../book.module/book.model/book.model';
 import { Library } from '../../library.module/library.model/library.model';
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit{
   library : Library;
   freeBookImage : any;
 
-  constructor(public navCtrl: NavController, private modalController : ModalController, private sanitizer : DomSanitizer, 
+  constructor(public navCtrl: NavController, private modalCtrl : ModalController, private sanitizer : DomSanitizer, 
               private homeService : HomeService, private event : Events) {
     
   }
@@ -71,26 +72,32 @@ export class HomeComponent implements OnInit{
   }
 
   public selectCategory(){
-    let categoryList = this.modalController.create(CategoryListComponent);
+    let categoryList = this.modalCtrl.create(CategoryListComponent);
       categoryList.present();
   }
 
   public openBook(key){
-    let bookDetail = this.modalController.create(BookDetailsComponent, {key : key});
+    let bookDetail = this.modalCtrl.create(BookDetailsComponent, {key : key});
     bookDetail.present();
   }
 
   public addBookToLibrary(event, key){
     event.stopPropagation();
-    if(this.userData.membership == 'Trial'){
+    if(this.userData.membership.status == 1){
       this.library = new Library();
       this.library.id = key;
       this.library.page = 0;
       this.library.progress = 1;
       this.homeService.addLibraryBook(this.library);
+      this.homeService.updateUserBookCount(this.userData);
     }else{
-      // Display Upgrade Page
-      console.log("Please Update Your Subscription");
+      let upgradeModal = this.modalCtrl.create(SubscriptionComponent);
+      upgradeModal.onDidDismiss(data => {
+        if(data != null){
+          this.userData = data;
+        }
+      });
+      upgradeModal.present();
     }
   }
   

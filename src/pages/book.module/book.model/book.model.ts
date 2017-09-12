@@ -4,6 +4,7 @@ export class Book {
     date        : number;
 	hits        : number;
 	media       : number;
+	type        : number;
 	image       : string;
 	pages       : number;
 	author      : string;

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, ModalController  } from 'ionic-angular';
+import { ViewController, NavParams, ModalController } from 'ionic-angular';
 
 import { BookDetailsComponent } from '../book-details.component/book-details.component';
+import { SubscriptionComponent } from '../../subscription.module/subscription.component/subscription.component';
+import { User } from '../../auth.module/user.model/user.model';
 import { Book } from '../book.model/book.model';
 import { Library } from '../../library.module/library.model/library.model';
 import { BookService } from '../book.service/book.service';
@@ -12,6 +14,7 @@ import { BookService } from '../book.service/book.service';
 })
 export class BookListComponent implements OnInit{
 
+  userData = new User();
   pageType  : any;
   key : any;
   pageTitle : any;
@@ -22,22 +25,25 @@ export class BookListComponent implements OnInit{
   curatedBooks : any;
   library : Library;
   
-  constructor(private navCtrl: NavController, private navParams : NavParams, private modalController : ModalController, private bookService : BookService) {
+  constructor(private viewCtrl: ViewController, private navParams : NavParams, private modalCtrl : ModalController, private bookService : BookService) {
     this.pageType = this.navParams.get('type');
     this.key       = this.navParams.get('key');
   }
 
   ngOnInit(){
-    switch(this.pageType){
-      case 'Category' : {
-        this.showCategoryBooks(this.key);
-      }break;
-      case 'Links' : {
-        this.showLinkBooks(this.key);
-      }break;
-      case 'Curated' : {
-        this.showCuratedBooks(this.key);
-      }break;
+    if(this.bookService.getUserData() != undefined){
+      this.userData = this.bookService.getUserData();
+      switch(this.pageType){
+        case 'Category' : {
+          this.showCategoryBooks(this.key);
+        }break;
+        case 'Links' : {
+          this.showLinkBooks(this.key);
+        }break;
+        case 'Curated' : {
+          this.showCuratedBooks(this.key);
+        }break;
+      }
     }
   }
 
@@ -77,9 +83,13 @@ export class BookListComponent implements OnInit{
   }
 
   public openBook(key){
-    let bookDetail = this.modalController.create(BookDetailsComponent, {key : key});
+    let bookDetail = this.modalCtrl.create(BookDetailsComponent, {key : key});
     bookDetail.present();
     console.log(key);
+  }
+
+  public closeBookList(){
+    this.viewCtrl.dismiss();
   }
 
   public getAuthorNameFromID(key){
@@ -98,12 +108,23 @@ export class BookListComponent implements OnInit{
 
   public addBookToLibrary(event, book){
     event.stopPropagation();
-    this.library = new Library();
-    this.library.id = book.$key;
-    this.library.media = book.media;
-    this.library.page = 0;
-    this.library.progress = 1;
-    this.bookService.addLibraryBook(this.library);
+    if(this.userData.membership.status == 1){
+      this.bookService.updateUserBookCount(this.userData);
+      this.library = new Library();
+      this.library.id = book.$key;
+      this.library.media = book.media;
+      this.library.page = 0;
+      this.library.progress = 1;
+      this.bookService.addLibraryBook(this.library);
+    }else{
+      let upgradeModal = this.modalCtrl.create(SubscriptionComponent);
+      upgradeModal.onDidDismiss(data => {
+        if(data != null){
+          this.userData = data;
+        }
+      });
+      upgradeModal.present();
+    }
   }
 
   public getLibraryStatus(key){

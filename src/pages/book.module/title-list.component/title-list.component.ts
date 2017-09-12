@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { ViewController, NavParams } from 'ionic-angular';
 
 @Component({
   selector: 'page-title-list',
@@ -10,7 +10,7 @@ export class TitleListComponent implements OnInit{
   contentIndex = 0;
   contentList  : any[];
   
-  constructor(private navCtrl: NavController, private navParams : NavParams) {
+  constructor(private viewCtrl: ViewController, private navParams : NavParams) {
     
   }
 
@@ -20,8 +20,13 @@ export class TitleListComponent implements OnInit{
   }
 
   public openPage(index){
-    this.navCtrl.pop();
+    this.viewCtrl.dismiss();
     this.navParams.get('openPage')(index);
+  }
+
+  public closeTitleList(){
+    this.viewCtrl.dismiss();
+    this.navParams.get('openPage')(null);
   }
 
 }

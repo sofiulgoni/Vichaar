@@ -99,10 +99,22 @@ export class BookService {
 
     public addLibraryBook(library){
         this.sharedService.getFirebaseDatabase().list('/Library/'+this.sharedService.getUserData().$key).push(library).catch(error => this.errorHandler(error));
+    } 
+
+    public updateBookHits(book){
+        this.sharedService.getFirebaseDatabase().object('/Book/'+book.$key).update(book).catch(error => this.errorHandler(error));
     }
 
     public updateLibraryBook(library){
         this.sharedService.getFirebaseDatabase().object('/Library/'+this.sharedService.getUserData().$key+'/'+library.$key).update(library).catch(error => this.errorHandler(error));
+    }
+
+    public updateUserBookCount(user){
+        if(user.membership.id < 3){
+            user.membership.bookLeft = user.membership.bookLeft - 1;
+            this.sharedService.getFirebaseDatabase().object('/User/'+user.$key).update(user);
+            console.log("Book Count Updated");
+        }
     }
 
     private errorHandler(error){

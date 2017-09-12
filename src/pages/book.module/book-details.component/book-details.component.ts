@@ -3,6 +3,7 @@ import { NavParams, ViewController, ModalController } from 'ionic-angular';
 
 import { BookService } from '../book.service/book.service';
 import { BookTextComponent } from '../book-text.component/book-text.component';
+import { SubscriptionComponent } from '../../subscription.module/subscription.component/subscription.component';
 import { User } from '../../auth.module/user.model/user.model';
 import { Book } from '../book.model/book.model';
 import { Library } from '../../library.module/library.model/library.model';
@@ -18,6 +19,7 @@ export class BookDetailsComponent implements OnInit{
   book = new Book();
   libraryStatus = false;
   library : any;
+  readStatus = false;
   
   constructor(private viewCtrl : ViewController, private navParams : NavParams, private modalCtrl: ModalController,
               private bookService : BookService) {
@@ -28,22 +30,29 @@ export class BookDetailsComponent implements OnInit{
     if(this.bookService.getBookDetailsByID(this.key) != undefined){
       this.book = this.bookService.getBookDetailsByID(this.key);
     }
-    if(this.bookService.getLibraryStatus(this.key) != undefined){
-      this.libraryStatus = true;
-    }
     if(this.bookService.getUserData() != undefined){
       this.userData = this.bookService.getUserData();
+      if(this.userData.membership.status == 1){
+        this.readStatus = true;
+      }
+    }
+    if(this.bookService.getLibraryStatus(this.key) != undefined){
+      this.libraryStatus = true;
+      this.readStatus    = true;
     }
   }
 
   public addBookToLibrary(book){
-    this.library = new Library();
-    this.library.id = this.key;
-    this.library.media = book.media;
-    this.library.page = 0;
-    this.library.progress = 1;
-    this.bookService.addLibraryBook(this.library);
-    this.libraryStatus = true;
+    if(this.userData.membership.status == 1){
+      this.bookService.updateUserBookCount(this.userData);
+      this.library = new Library();
+      this.library.id = this.key;
+      this.library.media = book.media;
+      this.library.page = 0;
+      this.library.progress = 1;
+      this.bookService.addLibraryBook(this.library);
+      this.libraryStatus = true;
+    }
   }
 
   public closeBookDetails(){
@@ -63,6 +72,7 @@ export class BookDetailsComponent implements OnInit{
   }
 
   public openBookTextPage(book){
+    this.bookService.updateUserBookCount(this.userData);
     if(this.libraryStatus == false){
       this.library = new Library();
       this.library.id = this.key;
@@ -72,6 +82,8 @@ export class BookDetailsComponent implements OnInit{
       this.bookService.addLibraryBook(this.library);
       console.log("Book added to library");
     }
+    book.hits = book.hits+1;
+    this.bookService.updateBookHits(book);
     let bookTextModal = this.modalCtrl.create(BookTextComponent, {key : this.key, closeModal : (data) => {
       this.viewCtrl.dismiss();
     }});
@@ -79,8 +91,14 @@ export class BookDetailsComponent implements OnInit{
   }
 
   public openUpgradePage(){
-    // Show Upgrade page
-    console.log("Please Upgrade Your Subscription");
+    let upgradeModal = this.modalCtrl.create(SubscriptionComponent);
+    upgradeModal.onDidDismiss(data => { 
+      if(data != null){
+        this.userData = data;
+        this.readStatus = true;
+      }
+    });
+    upgradeModal.present();
   }
 
 }

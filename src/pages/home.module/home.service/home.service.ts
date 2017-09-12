@@ -11,7 +11,8 @@ export class HomeService {
 
     public getFreeDailyBook(){
         if(this.sharedService.getBookList() != undefined){
-            return this.sharedService.getBookList()[Math.floor(Math.random()*this.sharedService.getBookList().length)];
+            var freeBooks = this.sharedService.getBookList().filter(book => book.type != 2);
+            return freeBooks[Math.floor(Math.random()*freeBooks.length)];
         }
     }
 
@@ -29,13 +30,13 @@ export class HomeService {
 
     public getTrendingList(){
         if(this.sharedService.getBookList() != undefined){
-            return this.sharedService.getBookList().sort(function(a, b) { return b.hits - a.hits;});
+            return this.sharedService.getBookList().sort(function(a, b) { return b.hits - a.hits });
         }
     }
 
     public getNewList(){
         if(this.sharedService.getBookList() != undefined){
-            return this.sharedService.getBookList().sort(function(a, b) { return b.date - a.date;});
+            return this.sharedService.getBookList().sort(function(a, b) { return b.date - a.date });
         }
     }
 
@@ -78,6 +79,14 @@ export class HomeService {
 
     public addLibraryBook(library){
         this.sharedService.getFirebaseDatabase().list('/Library/'+this.sharedService.getUserData().$key).push(library).catch(error => this.errorHandler(error));
+    }
+
+    public updateUserBookCount(user){
+        if(user.membership.id < 3){
+            user.membership.bookLeft = user.membership.bookLeft - 1;
+            this.sharedService.getFirebaseDatabase().object('/User/'+user.$key).update(user);
+            console.log("Book Count Updated");
+        }
     }
 
     private errorHandler(error){

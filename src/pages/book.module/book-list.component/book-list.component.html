@@ -1,5 +1,10 @@
 <ion-header>
-  <ion-navbar color="white">
+  <ion-navbar color="white" hideBackButton="true">
+    <ion-buttons start>
+      <button ion-button icon-only color="black" (click)="closeBookList()">
+         <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>
       {{pageTitle}}
     </ion-title>
@@ -37,7 +42,7 @@
       <h3 text-wrap>{{getAuthorNameFromID(book.author)}}</h3>
       <h2 text-wrap><b>{{book.name}}</b></h2>
       <p text-wrap>{{book.about}}</p>
-      <ion-icon *ngIf="!getLibraryStatus(book.$key)" item-end color="danger" name="add-circle" (click)="addBookToLibrary($event, book)"></ion-icon>
+      <ion-icon *ngIf="!getLibraryStatus(book.$key)" item-end color="danger" [name]="userData.membership.status == 1 ? 'add-circle' : 'lock'" (click)="addBookToLibrary($event, book)"></ion-icon>
       <ion-icon *ngIf="getLibraryStatus(book.$key)" item-end color="secondary" name="checkmark-circle"></ion-icon>
     </ion-item>
     
